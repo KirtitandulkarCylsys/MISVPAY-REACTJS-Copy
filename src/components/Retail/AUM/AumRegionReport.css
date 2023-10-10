@@ -1,0 +1,25 @@
+.export {
+  background-color: #ee8b3a;
+}
+
+.headtable {
+  line-height: 4;
+}
+
+.headline {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.forright {
+  text-align: right;
+}
+
+.total {
+  background-color: #ee8b3a;
+  color: white;
+  line-height: 0.5;
+}
+.unline{
+  text-decoration: none;
+}

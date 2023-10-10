@@ -1,0 +1,30 @@
+.mid{
+  text-align: center;  
+}
+
+.BgcolorOrange{
+    color: white;
+   line-height: 1.5;
+   background-color: #EE8B3A;
+}
+
+.sub{
+  text-align: center;
+}
+
+.headline1{
+  background-color: #352D94;
+  color: white;
+  text-align: center;
+}
+
+.headtbl{
+  line-height: 2;
+}
+
+.Aum-Head{
+  background-color: #352D94;
+  color: white;
+  padding-bottom: 10px;
+  line-height: 1;
+}

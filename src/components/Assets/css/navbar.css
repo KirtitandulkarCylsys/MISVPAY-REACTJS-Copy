@@ -1,0 +1,111 @@
+.btn-hamburger {
+  background-color: transparent;
+  border: none;
+}
+
+#nav-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-secondcard {
+  display: flex;
+}
+
+.quarter {
+  background-color: #EE8B3A;
+  color: white;
+  border: none;
+  padding: 8px 15px 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#third-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+#nav-fourth {
+  display: flex;
+  align-items: center;
+}
+
+#nav-sixth {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-left: 5px;
+  width: 50%;
+}
+
+#nav-fifth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+}
+
+#nav-admin {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-logout {
+  background-color: #EE8B3A;
+  border: none;
+  padding: 8px 8px 8px 8px;
+  border-radius: 5px;
+}
+
+.nav-heading {
+  color: #EE8B3A;
+  font-family: poppins;
+  margin-bottom: 0px;
+}
+
+.ribbon {
+  width: 20px;
+  font-size: 14px;
+  padding: 4px;
+  position: absolute;
+  right: -15px;
+  top: -12px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+.nav-para {
+  margin-top: 32px;
+}
+
+.nav-div {
+  margin-bottom: 18px;
+}
+
+.nav-h4 {
+  color: #EE8B3A;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Quarter1 {
+    position: relative;
+    left: 37px;
+    font-size: 12px;
+    top: -8px;
+  }
+  .nav-h4{
+    font-size: 18px;
+    position: relative;
+    left: 34px;
+  }
+  #nav-fifth{
+    position: relative;
+    left: -45px;
+  }
+}
+

@@ -1,0 +1,21 @@
+.border {
+  padding: 20px;
+}
+
+.BgcolorOrange {
+  line-height: 1;
+  height: 40px;
+  }
+
+#searchbox {
+  border-top-width: 20px;
+  border-width: thin;
+  border-color: #352d94;
+}
+.icon{
+  border-radius: 8px;
+  border: 2px solid rgba(53, 45, 148, 0.30);
+  padding: 7px;
+  width: 100px;
+  height: 41px
+}

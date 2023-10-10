@@ -1,0 +1,61 @@
+.gray-color{
+    color: rgb(140, 140, 142);;
+
+}
+#table{
+  width: 100%;
+  overflow: hidden;
+  overflow-x: scroll;
+
+}
+.schrollbar{
+  overflow-y: scroll;
+  height: 450px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(192, 190, 190); 
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(192, 190, 190); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(192, 190, 190); 
+}
+.theader{
+    color: #352D94;
+}
+  
+.textlink:hover {
+    color: #ffc107;
+  }
+  .textlink {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #005FB7;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap; 
+    overflow: hidden;   
+    text-overflow: ellipsis;
+  }
+  .tablehead {
+    background-color: #283593;
+    color: #ffffff;
+  }
+  .bgcolorBlue {
+    background-color: #352d94;
+}
+.text-white {
+  color: #fff !important;
+}
+#total{
+  font-weight: bold;
+}

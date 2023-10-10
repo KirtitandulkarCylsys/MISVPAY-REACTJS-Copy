@@ -1,0 +1,15 @@
+.headline {
+  color: rgb(5, 5, 5);
+  text-align: left;
+  padding-left: 20px;
+}
+
+.mid {
+  text-align: center;
+}
+
+.Bgcolor {
+  color: white;
+  background-color: #352d94;
+  line-height: 1;
+}

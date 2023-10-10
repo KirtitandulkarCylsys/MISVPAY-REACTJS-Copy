@@ -1,0 +1,58 @@
+.rmpagination-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .rmpagination {
+    display: inline-block;
+    padding: 5px;
+  }
+  
+  .rmpagination a {
+    color: rgb(58 94 147 / 98%);
+    cursor: pointer;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid rgb(58 94 147 / 98%);
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .rmpagination a:hover {
+    background-color: rgb(58 94 147 / 98%);
+    color: #fff;
+  }
+  
+  .rmpagination .active a {
+    background-color:rgb(58 94 147 / 98%);
+    color: #fff;
+    border-radius: 50%;
+    padding: 5px 10px;
+  }
+  
+  .rmpagination li {
+    display: inline-block;
+  }
+  
+  .rmpagination ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .rmpagination a.prev,
+  .rmpagination a.next {
+    background-color: #fff;
+    border: 1px solid rgb(58 94 147 / 98%);
+    color: rgb(58 94 147 / 98%);
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .rmpagination a.prev:hover,
+  .rmpagination a.next:hover {
+    background-color: rgb(58 94 147 / 98%);
+    color: #fff;
+  }
+  

@@ -1,0 +1,40 @@
+.rcorners {
+    border-radius: 8px;
+    border: 2px solid rgba(53, 45, 148, 0.30);
+    padding: 7px;
+    width: 155px;
+    height: 41px;
+}
+.BgcolorOrange2 {
+    background-color: #EE8B3A;
+    width: 100%;
+}
+
+.colorwhite{
+    color: antiquewhite;
+    text-decoration: none;
+}
+.headline{
+    text-align: justify;
+}
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+    z-index: 1;
+    min-width: 200px; 
+  }
+  
+  .custom-dropdown.active .dropdown-content {
+    display: block;
+  }
+  
+  

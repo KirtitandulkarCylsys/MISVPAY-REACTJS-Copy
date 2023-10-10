@@ -1,0 +1,11 @@
+.Check{
+    line-height: 2;
+    margin-left: 10px;
+}
+
+@media (min-width: 768px){
+.media{
+    flex: 0 0 auto;
+    width: 31.666667%;
+}
+}

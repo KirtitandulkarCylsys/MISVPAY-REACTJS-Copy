@@ -1,0 +1,58 @@
+.ufcpagination-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .ufcpagination {
+    display: inline-block;
+    padding: 5px;
+  }
+  
+  .ufcpagination a {
+    color: rgb(76, 96, 114);
+    cursor: pointer;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid rgb(76, 96, 114);
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .ufcpagination a:hover {
+    background-color: rgb(76, 96, 114);
+    color: #fff;
+  }
+  
+  .ufcpagination .active a {
+    background-color:rgb(76, 96, 114);
+    color: #fff;
+    border-radius: 50%;
+    padding: 5px 10px;
+  }
+  
+  .ufcpagination li {
+    display: inline-block;
+  }
+  
+  .ufcpagination ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ufcpagination a.prev,
+  .ufcpagination a.next {
+    background-color: #fff;
+    border: 1px solid rgb(76, 96, 114);
+    color: rgb(76, 96, 114);
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .ufcpagination a.prev:hover,
+  .ufcpagination a.next:hover {
+    background-color: rgb(76, 96, 114);
+    color: #fff;
+  }
+  
