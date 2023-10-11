@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import "./SubTable-CSS/SubSalesTable.css";
-import Loader from "../Loader";
-import { RegionApi } from "../../Retail/RetailApi/RegionApi";
+import Loader from "./Loader";
+import { RegionApi } from "../Retail/RetailApi/RegionApi";
 import { useMemo } from "react";
-import Api from "../../Retail/RetailApi/Api";
-import UfcTable from "./UFC/UfcTable";
-
+import Api from "../Retail/RetailApi/Api";
+import UfcTable from "./UfcTable";
+import "./RegionTable.css";
 const RegionTable = ({
   formatNumberToIndianFormat,
   select_type,
@@ -17,7 +16,8 @@ const RegionTable = ({
   const [clickedIndex, setClickedIndex] = useState(-1);
   const formattedStartDate = startDate.split("-").reverse().join("/");
   const formattedEndDate = endDate.split("-").reverse().join("/");
-  const { emproles, channel } = Api();
+  const { emproles, channel} = Api();
+
   const queryParams = useMemo(() => {
     return new URLSearchParams({
       employee_id: "1234",
@@ -33,6 +33,8 @@ const RegionTable = ({
       ufc: "",
       rm: "nill",
       common_report: "INT_ZONEWISE",
+      page_number: '',
+      page_size: ''
     });
   }, [
     formattedStartDate,
@@ -40,7 +42,7 @@ const RegionTable = ({
     select_type,
     zone,
     emproles,
-    channel,
+    channel
   ]);
   const { regions, loading } = RegionApi(queryParams);
   let dataToUse = [];
@@ -63,16 +65,18 @@ const RegionTable = ({
     }
   };
 
-  let totalEquity = 0;
-  let totalHybrid = 0;
-  let totalArbitrage = 0;
-  let totalPassive = 0;
-  let totalFixedIncome = 0;
-  let totalCash = 0;
-  let grandTotal = 0;
+  const calculateTotal = (columnName) => {
+    let total = 0;
+    if (dataToUse && Array.isArray(dataToUse)) {
+      dataToUse.forEach((item) => {
+        total += parseFloat(item[columnName]);
+      });
+    }
+    return total;
+  };
 
   return (
-    <div className="new-component container-fluid p-0">
+    <div className="new-component container-fluid p-0 scrollbarRegion">
       <table
         className="mt-3 table nested-table"
         style={{
@@ -84,16 +88,22 @@ const RegionTable = ({
       >
         <thead>
           <tr className="colorwhite BgcolorOrange">
-            <th rowSpan="2" className="border-1 border-end">
+            <th
+              rowSpan="2"
+              className="border-1 border-end text-center"
+              style={{ lineHeight: "4" }}
+            >
               Region
             </th>
-            <th colspan="7" className="border-1 border-end ">
+            <th colspan="7" className="border-1 border-end text-center ">
               Sales
             </th>
-            <th colspan="7" className="border-1 border-end ">
+            <th colspan="7" className="border-1 border-end text-center ">
               Redemption
             </th>
-            <th colspan="7">NetSales</th>
+            <th colspan="7" className="text-center">
+              NetSales
+            </th>
           </tr>
           <tr className="colorwhite BgcolorOrange">
             <th className="forright ">Equity</th>
@@ -121,13 +131,6 @@ const RegionTable = ({
         </thead>
         <tbody style={{ backgroundColor: "#DADADA" }}>
           {dataToUse.map((summary, index) => {
-            totalEquity += parseFloat(summary.SEQUITY);
-            totalHybrid += parseFloat(summary.SHYBRID);
-            totalArbitrage += parseFloat(summary.SARBITRAGE);
-            totalPassive += parseFloat(summary.SPASSIVE);
-            totalFixedIncome += parseFloat(summary.SFIXED_INCOME);
-            totalCash += parseFloat(summary.SCASH);
-            grandTotal += parseFloat(summary.STOTAL);
             return (
               <React.Fragment key={index}>
                 <tr>
@@ -238,29 +241,111 @@ const RegionTable = ({
           <tr className="colorwhite BgcolorOrange">
             <td>TOTAL</td>
             <td className="text-end">
-              {formatNumberToIndianFormat(parseFloat(totalEquity.toFixed(2)))}
-            </td>
-            <td className="text-end">
-              {formatNumberToIndianFormat(parseFloat(totalHybrid.toFixed(2)))}
-            </td>
-            <td className="text-end">
               {formatNumberToIndianFormat(
-                parseFloat(totalArbitrage.toFixed(2))
+                parseFloat(calculateTotal("SEQUITY").toFixed(2))
               )}
             </td>
             <td className="text-end">
-              {formatNumberToIndianFormat(parseFloat(totalPassive.toFixed(2)))}
-            </td>
-            <td className="text-end">
               {formatNumberToIndianFormat(
-                parseFloat(totalFixedIncome.toFixed(2))
+                parseFloat(calculateTotal("SHYBRID").toFixed(2))
               )}
             </td>
             <td className="text-end">
-              {formatNumberToIndianFormat(parseFloat(totalCash.toFixed(2)))}
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("SARBITRAGE").toFixed(2))
+              )}
             </td>
             <td className="text-end">
-              {formatNumberToIndianFormat(parseFloat(grandTotal.toFixed(2)))}
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("SPASSIVE").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("SFIXED_INCOME").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("SCASH").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("STOTAL").toFixed(2))
+              )}
+            </td>
+            {/* REDEMPTION TOTAL */}
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("REQUITY").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RHYBRID").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RARBITRAGE").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RPASSIVE").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RFIXED_INCOME").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RCASH").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("RTOTAL").toFixed(2))
+              )}
+            </td>
+            {/* NETSALES TOTAL */}
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NEQUITY").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NHYBRID").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NARBITRAGE").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NPASSIVE").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NFIXED_INCOME").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NCASH").toFixed(2))
+              )}
+            </td>
+            <td className="text-end">
+              {formatNumberToIndianFormat(
+                parseFloat(calculateTotal("NTOTAL").toFixed(2))
+              )}
             </td>
           </tr>
         </tbody>

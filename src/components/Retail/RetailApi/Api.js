@@ -9,17 +9,17 @@ const Api = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [select_type, setSelectType] = useState("");
-  const [transaction_summary_report, setTransactionSummaryReport] = useState(
-    []
-  );
+  const [transaction_summary_report, setTransactionSummaryReport] = useState([]);
+  // const [pageNumber, setPageNumber]=useState([]);
   const [loading, setLoading] = useState(false);
-  const { roleWiseData } = useDataContext(); 
-  const emproles = roleWiseData ? roleWiseData[0].EMP_ROLE : null; 
-  const channel = roleWiseData ? roleWiseData[0].CHANNEL_CODE : null; 
+  const { roleWiseData } = useDataContext();
+  const emproles = roleWiseData ? roleWiseData[0].EMP_ROLE : null;
+  const channel = roleWiseData ? roleWiseData[0].CHANNEL_CODE : null;
   const zoneData = roleWiseData ? roleWiseData[0].ZONE : null;
   const REGIONData = roleWiseData ? roleWiseData[0].REGIONCODE : null;
   const UFCData = roleWiseData ? roleWiseData[0].UFC_CODE : null;
   const QUARTERData = roleWiseData ? roleWiseData[0].YEAR : null;
+  const emp_id = roleWiseData ? roleWiseData[0].EMP_ID : null;
   let commonReportValue = "";
   switch (emproles) {
     case "ZH":
@@ -35,17 +35,17 @@ const Api = () => {
       commonReportValue = "RMWISE";
       break;
     default:
-      commonReportValue = ""; 
+      commonReportValue = "";
   }
-  
+
   const fetchTransactionSummary = async () => {
     try {
       const formattedStartDate = startDate.split("-").reverse().join("/");
       const formattedEndDate = endDate.split("-").reverse().join("/");
       const queryParams = new URLSearchParams({
-        employee_id: "1234",
+        employee_id: emp_id,
         emprole: emproles,
-        quarter: '202324Q2',
+        quarter: "202324Q2",
         start_date: formattedStartDate,
         end_date: formattedEndDate,
         select_type: select_type,
@@ -54,8 +54,10 @@ const Api = () => {
         zone: zoneData,
         region: REGIONData,
         ufc: UFCData,
-        rm: "1498",
+        rm: emp_id,
         common_report: commonReportValue,
+        page_number: "1",
+        page_size: "",
       });
 
       if (startDate > endDate) {

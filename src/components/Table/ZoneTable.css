@@ -15,13 +15,13 @@
 
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px rgb(192, 190, 190); 
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgb(192, 190, 190); 
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Handle on hover */

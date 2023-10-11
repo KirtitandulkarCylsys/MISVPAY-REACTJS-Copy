@@ -7,7 +7,7 @@ import { useAUMApi } from "../RetailApi/AUM_Api";
 import excel from "../../Assets/images/excel_icon.png";
 import { ExportToExcel } from "./ExportToExcel";
 import ExportToPDF from "./ExportToPDF";
-import LoaderSearch from "../../Table/SubTable/LoaderSearch";
+import LoaderSearch from "../../Table/LoaderSearch";
 import { useParams } from "react-router-dom";
 
 const AumRegionReport = () => {

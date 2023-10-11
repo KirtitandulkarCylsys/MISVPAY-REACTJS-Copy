@@ -6,7 +6,7 @@ import SideBar from "../Shared/SideBar/SideBar";
 import Navbar from "../Shared/Navbar";
 import datetime from "../Assets/images/Vector (Stroke).png";
 import ScheduleModal from "../Shared/Modal/ScheduleModal";
-import LoaderSearch from "../Table/SubTable/LoaderSearch";
+import LoaderSearch from "../Table/LoaderSearch";
 import Api from "./RetailApi/Api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,9 +17,9 @@ import ExportToPdf from "./ExportToPdf";
 // import DropDown from "./DropDown";
 import Multiselect from "multiselect-react-dropdown"; 
 import ZoneTable from "../Table/ZoneTable";
-import RegionTable from "../Table/SubTable/RegionTable";
-import UfcTable from "../Table/SubTable/UFC/UfcTable";
-import RmTable from "../Table/SubTable/RMWISE/RmTable";
+import UfcTable from "../Table/UfcTable";
+import RmTable from "../Table/RmTable";
+import RegionTable from "../Table/RegionTable";
 
 
 const Retail_Transaction = ({ headers }) => {
@@ -246,7 +246,7 @@ const Retail_Transaction = ({ headers }) => {
                                     }
                                     startDate={startDate}
                                     endDate={endDate}
-                                    select_type={select_type}
+                                    select_type={select_type}                                   
                                   />
                                  
                                 </>

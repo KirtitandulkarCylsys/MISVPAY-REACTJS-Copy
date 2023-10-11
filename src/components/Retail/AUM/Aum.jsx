@@ -1,7 +1,7 @@
 import React from "react";
 import {  useNavigate } from "react-router-dom";
 import "./Aum.css";
-import LoaderSearch from "../../Table/SubTable/LoaderSearch";
+import LoaderSearch from "../../Table/LoaderSearch";
 
 const Aum = ({aum_period, loading, report_period}) => {
 const navigate = useNavigate();
