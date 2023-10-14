@@ -15,44 +15,38 @@ import { ExcelToExport } from "./ExcelToExport";
 import ExportToPdf from "./ExportToPdf";
 // import Filter from "./Filter";
 // import DropDown from "./DropDown";
-import Multiselect from "multiselect-react-dropdown"; 
+import Multiselect from "multiselect-react-dropdown";
 import ZoneTable from "../Table/ZoneTable";
 import UfcTable from "../Table/UfcTable";
 import RmTable from "../Table/RmTable";
 import RegionTable from "../Table/RegionTable";
 import { useDataContext } from "../../Context/DataContext";
 
-
 const Retail_Transaction = ({ headers }) => {
   // const { scheme_details } = Scheme();
-
-
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const {
-    // hide,
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
-    transaction_summary_report,
+    setStart_Date,
+    setEnd_Date,
+    setRolwiseselectype,
+    hide,
+    fetchTransactionSummary,
+    setHide,
+    emproles,
+    start_Date,
+    end_Date,
+    rolwiseselectype,
     loading,
-    // togglehide,
-    select_type,
-    setSelectType,
-    formatNumberToIndianFormat,emproles
-  } = Api({ headers });
+  } = useDataContext();
+  const commonReport = emproles;
 
- const  {setStart_Date,setEnd_Date, setRolwiseselectype,hide,fetchTransactionSummary, setHide}= useDataContext();
-  const  commonReport= emproles  ;
-
-  
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const togglehide = async () => {
     try {
-      await fetchTransactionSummary('');
+      await fetchTransactionSummary("");
       setHide(true);
     } catch (error) {
       setHide(false);
@@ -62,27 +56,24 @@ const Retail_Transaction = ({ headers }) => {
 
   const handleStartDateChange = (e) => {
     const newStartDate = e.target.value;
-    if (newStartDate > endDate) {
+    if (newStartDate > end_Date) {
       toast.error("Start date should be less than end date");
     } else {
-      setStartDate(newStartDate);
       setStart_Date(newStartDate);
     }
   };
 
   const handleEndDateChange = (e) => {
     const newEndDate = e.target.value;
-    if (newEndDate < startDate) {
+    if (newEndDate < start_Date) {
       toast.error("End date should be greater than start date");
     } else {
-      setEndDate(newEndDate);
       setEnd_Date(newEndDate);
     }
   };
-  const handleSelectType =(value)=>{
+  const handleSelectType = (value) => {
     setRolwiseselectype(value);
-    setSelectType(value);
-  }
+  };
 
   return (
     <>
@@ -136,7 +127,7 @@ const Retail_Transaction = ({ headers }) => {
                             class="form-control"
                             id=""
                             placeholder="Project Start Date"
-                            value={startDate}
+                            value={start_Date}
                             onChange={handleStartDateChange}
                           />
                         </div>
@@ -151,7 +142,7 @@ const Retail_Transaction = ({ headers }) => {
                             class="form-control"
                             id=""
                             placeholder="Project End Date"
-                            value={endDate}
+                            value={end_Date}
                             onChange={handleEndDateChange}
                           />
                         </div>
@@ -181,7 +172,7 @@ const Retail_Transaction = ({ headers }) => {
                             name=""
                             id="ab"
                             class="form-select form-control"
-                            value={select_type}
+                            value={rolwiseselectype}
                             onChange={(e) => handleSelectType(e.target.value)}
                           >
                             <option value=""> choose type</option>
@@ -254,66 +245,15 @@ const Retail_Transaction = ({ headers }) => {
                             </div>
                           ) : hide ? (
                             <>
-                              {commonReport === 'ZH' || commonReport === 'ADMIN'? (
-                                <>
-                                  <ZoneTable
-                                    // transaction_summary_report={
-                                    //   transaction_summary_report
-                                    // }
-                                    formatNumberToIndianFormat={
-                                      formatNumberToIndianFormat
-                                    }
-                                    // startDate={startDate}
-                                    // endDate={endDate}
-                                    // select_type={select_type}                                   
-                                  />
-                                 
-                                </>
-                              ) : commonReport === 'RH' ? (
-                                <>
-                                  <RegionTable
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    select_type={select_type}
-                                    formatNumberToIndianFormat={
-                                      formatNumberToIndianFormat
-                                    }
-                                    transaction_summary_report={
-                                      transaction_summary_report
-                                    }
-                                  />
-                                  
-                                </>
-                              ) : commonReport === 'CM' ? (
-                                <>
-                                  <UfcTable
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    select_type={select_type}
-                                    formatNumberToIndianFormat={
-                                      formatNumberToIndianFormat
-                                    }
-                                    transaction_summary_report={
-                                      transaction_summary_report
-                                    }
-                                  />
-                                  
-                                </>
-                              ) : commonReport === 'RM' ? (
-                                <>
-                                  <RmTable
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    select_type={select_type}
-                                    formatNumberToIndianFormat={
-                                      formatNumberToIndianFormat
-                                    }
-                                    transaction_summary_report={
-                                      transaction_summary_report
-                                    }
-                                  />
-                                  
-                                </>
+                              {commonReport === "ZH" ||
+                              commonReport === "ADMIN" ? (
+                                <ZoneTable />
+                              ) : commonReport === "RH" ? (
+                                <RegionTable />
+                              ) : commonReport === "CM" ? (
+                                <UfcTable />
+                              ) : commonReport === "RM" ? (
+                                <RmTable />
                               ) : null}
                             </>
                           ) : (

@@ -1,28 +1,29 @@
 import React from "react";
 import { RMApi } from "../Retail/RetailApi/RegionApi";
 import { useMemo } from "react";
-import Api from "../Retail/RetailApi/Api";
+import { useDataContext } from "../../Context/DataContext";
 
-const RmTable = ({
-  formatNumberToIndianFormat,
-  select_type,
-  startDate,
-  endDate,
-  ufc,
-  transaction_summary_report,
-}) => {
-  const formattedStartDate = startDate.split("-").reverse().join("/");
-  const formattedEndDate = endDate.split("-").reverse().join("/");
-  const { emproles, channel } = Api();
+const RmTable = ({ ufc}) => {
+  const {
+    emproles,
+    start_Date,
+    end_Date,
+    emp_id,
+    rolwiseselectype,
+    channel,
+    summary_report,formatNumberToIndianFormat
+  } = useDataContext();
 
+  const formattedStartDate = start_Date.split("-").reverse().join("/");
+  const formattedEndDate = end_Date.split("-").reverse().join("/");
   const queryParams = useMemo(() => {
     return new URLSearchParams({
-      employee_id: "1234",
+      employee_id:  emp_id,
       emprole: emproles,
       quarter: "202324Q2",
       start_date: formattedStartDate,
       end_date: formattedEndDate,
-      select_type: select_type,
+      select_type: rolwiseselectype,
       scheme_code: "nill",
       channel: channel,
       zone: "",
@@ -34,12 +35,13 @@ const RmTable = ({
       page_size: "",
     });
   }, [
+    emp_id,
     formattedStartDate,
     formattedEndDate,
-    select_type,
+    rolwiseselectype,
     ufc,
     emproles,
-    channel,
+    channel
   ]);
 
   const { rm } = RMApi(queryParams);
@@ -48,10 +50,10 @@ const RmTable = ({
   if (rm && rm.length > 0) {
     dataToUse = rm;
   } else if (
-    transaction_summary_report &&
-    transaction_summary_report.length > 0
+    summary_report &&
+    summary_report.length > 0
   ) {
-    dataToUse = transaction_summary_report;
+    dataToUse = summary_report;
   }
   const calculateTotal = (columnName) => {
     let total = 0;

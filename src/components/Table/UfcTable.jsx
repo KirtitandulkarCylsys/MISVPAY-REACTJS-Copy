@@ -3,30 +3,31 @@ import Loader from "./Loader";
 import { UfcApi } from "../Retail/RetailApi/RegionApi";
 import RmSalesTable from "./RmTable";
 import { useMemo } from "react";
-import Api from "../Retail/RetailApi/Api";
+import { useDataContext } from "../../Context/DataContext";
 
-const UfcTable = ({
-  formatNumberToIndianFormat,
-  select_type,
-  startDate,
-  endDate,
-  region,
-  transaction_summary_report,
-}) => {
+const UfcTable = ({region}) => {
   const [clickedIndex, setClickedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
-  const formattedStartDate = startDate.split("-").reverse().join("/");
-  const formattedEndDate = endDate.split("-").reverse().join("/");
-  const { emproles, channel } = Api();
+  const {
+    emproles,
+    start_Date,
+    end_Date,
+    emp_id,
+    rolwiseselectype,
+    channel,
+    summary_report,formatNumberToIndianFormat
+  } = useDataContext();
+  const formattedStartDate = start_Date.split("-").reverse().join("/");
+  const formattedEndDate = end_Date.split("-").reverse().join("/");
 
   const queryParams = useMemo(() => {
     return new URLSearchParams({
-      employee_id: "1234",
+      employee_id: emp_id,
       emprole: emproles,
       quarter: "202324Q2",
       start_date: formattedStartDate,
       end_date: formattedEndDate,
-      select_type: select_type,
+      select_type: rolwiseselectype,
       scheme_code: "nill",
       channel: channel,
       zone: "",
@@ -37,10 +38,10 @@ const UfcTable = ({
       page_number: '',
       page_size: ''
     });
-  }, [
+  }, [emp_id,
     formattedStartDate,
     formattedEndDate,
-    select_type,
+    rolwiseselectype,
     region,
     emproles,
     channel
@@ -52,10 +53,10 @@ const UfcTable = ({
   if (ufc && ufc.length > 0) {
     dataToUse = ufc;
   } else if (
-    transaction_summary_report &&
-    transaction_summary_report.length > 0
+    summary_report &&
+    summary_report.length > 0
   ) {
-    dataToUse = transaction_summary_report;
+    dataToUse = summary_report;
   }
   const handleButtonClick = (index) => {
     setIsLoading(true);
@@ -235,15 +236,7 @@ const UfcTable = ({
                     <tr key={`subtable-${index}`}>
                       <td colSpan="23" className="p-0">
                         {clickedIndex === index && (
-                          <RmSalesTable
-                            formatNumberToIndianFormat={
-                              formatNumberToIndianFormat
-                            }
-                            startDate={startDate}
-                            endDate={endDate}
-                            select_type={select_type}
-                            ufc={ufc.UFC_CODE}
-                          />
+                          <RmSalesTable ufc={ufc.UFC_CODE}/>
                         )}
                       </td>
                     </tr>

@@ -2,30 +2,34 @@ import React, { useState } from "react";
 import Loader from "./Loader";
 import { RegionApi } from "../Retail/RetailApi/RegionApi";
 import { useMemo } from "react";
-import Api from "../Retail/RetailApi/Api";
 import UfcTable from "./UfcTable";
 import "./RegionTable.css";
-const RegionTable = ({
-  formatNumberToIndianFormat,
-  select_type,
-  startDate,
-  endDate,
-  zone,
-  transaction_summary_report,
-}) => {
-  const [clickedIndex, setClickedIndex] = useState(-1);
-  const formattedStartDate = startDate.split("-").reverse().join("/");
-  const formattedEndDate = endDate.split("-").reverse().join("/");
-  const { emproles, channel} = Api();
+import { useDataContext } from "../../Context/DataContext";
 
+const RegionTable = ({zone }) => {
+
+  const [clickedIndex, setClickedIndex] = useState(-1);
+
+  const {
+    emproles,
+    start_Date,
+    end_Date,
+    emp_id,
+    rolwiseselectype,
+    channel,
+    summary_report,formatNumberToIndianFormat
+  } = useDataContext();
+
+  const formattedStartDate = start_Date?.split("-").reverse().join("/");
+  const formattedEndDate = end_Date?.split("-").reverse().join("/");
   const queryParams = useMemo(() => {
     return new URLSearchParams({
-      employee_id: "1234",
+      employee_id: emp_id,
       emprole: emproles,
       quarter: "202324Q2",
       start_date: formattedStartDate,
       end_date: formattedEndDate,
-      select_type: select_type,
+      select_type: rolwiseselectype,
       scheme_code: "nill",
       channel: channel,
       zone: zone,
@@ -33,30 +37,27 @@ const RegionTable = ({
       ufc: "",
       rm: "nill",
       common_report: "INT_ZONEWISE",
-      page_number: '',
-      page_size: ''
+      page_number: "",
+      page_size: "",
     });
   }, [
+    emp_id,
     formattedStartDate,
     formattedEndDate,
-    select_type,
+    rolwiseselectype,
     zone,
     emproles,
-    channel
+    channel,
   ]);
   const { regions, loading } = RegionApi(queryParams);
-  let dataToUse = [];
 
+  let dataToUse = [];
   if (regions && regions.length > 0) {
     dataToUse = regions;
-  } else if (
-    transaction_summary_report &&
-    transaction_summary_report.length > 0
-  ) {
-    dataToUse = transaction_summary_report;
+  } else if (summary_report && summary_report.length > 0) {
+    dataToUse = summary_report;
   }
 
-  // Rest of your component remains the same
   const handleButtonClick = (index) => {
     if (index === clickedIndex) {
       setClickedIndex(-1);
@@ -222,15 +223,7 @@ const RegionTable = ({
                   <tr key={`subtable-${index}`}>
                     <td colSpan="23" className="p-0">
                       {clickedIndex === index && (
-                        <UfcTable
-                          formatNumberToIndianFormat={
-                            formatNumberToIndianFormat
-                          }
-                          startDate={startDate}
-                          endDate={endDate}
-                          select_type={select_type}
-                          region={summary.REGION}
-                        />
+                        <UfcTable region={summary.REGION} />
                       )}
                     </td>
                   </tr>

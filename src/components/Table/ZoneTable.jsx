@@ -6,18 +6,18 @@ import "./ZoneTable.css";
 import Api from "../Retail/RetailApi/Api";
 import ReactPaginate from "react-paginate";
 import { useDataContext } from "../../Context/DataContext";
-const ZoneTable = ({
-  formatNumberToIndianFormat,
-  startDate,
-  endDate,
-  select_type,
-}) => {
+const ZoneTable = () => {
   const [clickedIndex, setClickedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPages, setTotalPages]= useState('');
-  const[ currentPage, setCurrentPage] =useState(1);
+  // const [totalPages, setTotalPages] = useState("");
+  // const[ currentPage, setCurrentPage] =useState(1);
   const {
-    zonetablecurrentPage, zontablepageSize, setZonetablepageSize,setZonetablecurrentPage, fetchTransactionSummary,summary_report
+    zonetablecurrentPage,
+    zontablepageSize,
+    setZonetablepageSize,
+    setZonetablecurrentPage,
+    fetchTransactionSummary,
+    summary_report,formatNumberToIndianFormat,start_Date,end_Date,rolwiseselectype
   } = useDataContext();
   const handleButtonClick = (index) => {
     setIsLoading(true);
@@ -31,25 +31,23 @@ const ZoneTable = ({
     }
   };
 
-  const itemsperPage= zontablepageSize===''? summary_report.length : parseInt(zontablepageSize)
-useEffect(()=>{
-  setZonetablecurrentPage('');
-  setTotalPages(Math.ceil(summary_report.length / itemsperPage));
-},[zontablepageSize])
-useEffect(()=>{
-  currentPage=== 0 ? setZonetablecurrentPage(""):
-  setZonetablecurrentPage(currentPage.toString());
-  console.log(currentPage,'currentPage')
-},[currentPage])
-
-
+  // const itemsperPage =
+  //   zontablepageSize === ""
+  //     ? summary_report.length
+  //     : parseInt(zontablepageSize);
+  // useEffect(() => {
+  //   setZonetablecurrentPage("");
+  //   setTotalPages(Math.ceil(summary_report.length / itemsperPage));
+  // }, [zontablepageSize]);
+  // useEffect(()=>{
+  //   currentPage=== 0 ? setZonetablecurrentPage(""):
+  //   setZonetablecurrentPage(currentPage.toString());
+  //   console.log(currentPage,'currentPage')
+  // },[currentPage])
 
   const calculateTotal = (columnName) => {
     let total = 0;
-    if (
-      summary_report &&
-      Array.isArray(summary_report)
-    ) {
+    if (summary_report && Array.isArray(summary_report)) {
       summary_report.forEach((item) => {
         total += parseFloat(item[columnName]);
       });
@@ -57,26 +55,47 @@ useEffect(()=>{
     return total;
   };
 
+  // const handlePageClick = (selectedPage) => {
+  //   setCurrentPage(selectedPage.selected)
+  //   setZonetablecurrentPage(currentPage.toString());
+  //   console.log(selectedPage.selected,'selectedPage.selected');
+  // };
 
-  const handlePageClick = (selectedPage) => {
-    setCurrentPage(selectedPage.selected)
-    setZonetablecurrentPage(currentPage.toString());
-    console.log(selectedPage.selected,'selectedPage.selected');
+  // const handlePageSizeChange = (e) => {
+  //   console.log(e.target.value, "pagesize");
+  //   setZonetablecurrentPage(zonetablecurrentPage.toString())
+  //   setZonetablepageSize(e.target.value);
+  //   fetchTransactionSummary(e.target.value);
+  // };
+ 
+  const handlePageSizeChange = (e) => {
+    const newSize = e.target.value;
+    setZonetablepageSize(newSize);
+    setZonetablecurrentPage("1"); 
+    fetchTransactionSummary();
   };
-
-  const handlePageSizeChange = (e) => {   
-    console.log(e.target.value,'pagesize');
-    setZonetablecurrentPage(currentPage.toString());
-    setZonetablepageSize(e.target.value);
-    fetchTransactionSummary(e.target.value, currentPage.toString());
-    
+  const handlePrevious = () => {
+    // Decrease the page number by 1
+    const newPage = parseInt(zonetablecurrentPage) - 1;
+    if (newPage >= 1) {
+      setZonetablecurrentPage(newPage.toString());
+      fetchTransactionSummary();
+    }
   };
+  const handleNext = () => {
+    const newPage = parseInt(zonetablecurrentPage) + 1;
+    setZonetablecurrentPage(newPage.toString());
+    fetchTransactionSummary();
+  };
+ 
+  // const startIndex = currentPage * itemsperPage;
+  // const endIndex = startIndex + itemsperPage;
+  // const subset = summary_report.slice(startIndex, endIndex);
+  // console.log(startIndex,'startIndex', subset,'subset', summary_report,'summary_report');
+  // console.log(endIndex,'endIndex');
 
-  const startIndex = currentPage * itemsperPage;
-  const endIndex = startIndex + itemsperPage;
-  const subset = summary_report.slice(startIndex, endIndex);
-  console.log(startIndex,'startIndex', subset,'subset', summary_report,'summary_report');
-  console.log(endIndex,'endIndex');
+   const totalPages = Math.ceil(summary_report.length / zontablepageSize);
+  const isNextButtonDisabled = parseInt(zonetablecurrentPage) >= totalPages;
   return (
     <>
       <div className="">
@@ -89,6 +108,7 @@ useEffect(()=>{
                 </label>
                 <select
                   className="form-select form-control w-50"
+                  value={zontablepageSize} // Controlled component
                   onChange={handlePageSizeChange}
                 >
                   <option value="5">5 </option>
@@ -102,7 +122,7 @@ useEffect(()=>{
                 <p className="theader">
                   <Link
                     className="btn textlink"
-                    to={`/RegionWiseSales/${select_type}/${startDate}/${endDate}`}
+                    to={`/RegionWiseSales/${rolwiseselectype}/${start_Date}/${end_Date}`}
                   >
                     <b>All India Region Wise</b>
                   </Link>
@@ -110,14 +130,14 @@ useEffect(()=>{
               </div>
               <div className="col-md-2">
                 <p className="theader">
-                  <Link className="btn textlink" to={`/UfcWise/${select_type}`}>
+                  <Link className="btn textlink" to={`/UfcWise/${rolwiseselectype}`}>
                     <b>All India UFC Wise </b>
                   </Link>
                 </p>
               </div>
               <div className="col-md-2">
                 <p className="theader">
-                  <Link className=" btn textlink" to={`/RmWise/${select_type}`}>
+                  <Link className=" btn textlink" to={`/RmWise/${rolwiseselectype}`}>
                     <b>All India RM Wise </b>
                   </Link>
                 </p>
@@ -171,7 +191,7 @@ useEffect(()=>{
                     </tr>
                   </thead>
                   <tbody>
-                    {subset?.map((summary, index) => {
+                    {summary_report?.map((summary, index) => {
                       return (
                         <React.Fragment key={index}>
                           <tr>
@@ -303,18 +323,7 @@ useEffect(()=>{
                           {clickedIndex === index && (
                             <tr key={`subtable-${index}`}>
                               <td colSpan="22" className="p-0">
-                                <RegionTable
-                                  // transaction_summary_report={
-                                  //   transaction_summary_report
-                                  // }
-                                  formatNumberToIndianFormat={
-                                    formatNumberToIndianFormat
-                                  }
-                                  startDate={startDate}
-                                  endDate={endDate}
-                                  select_type={select_type}
-                                  zone={summary.ZONE}
-                                />
+                                <RegionTable zone={summary.ZONE}/>
                               </td>
                             </tr>
                           )}
@@ -433,7 +442,7 @@ useEffect(()=>{
                     </tr>
                   </tbody>
                 </table>
-                <ReactPaginate
+                {/* <ReactPaginate
                   previousLabel={"← Previous"}
                   nextLabel={"Next →"}
                   pageCount={totalPages}
@@ -444,7 +453,13 @@ useEffect(()=>{
                   nextLinkClassName={"pagination__link"}
                   disabledClassName={"pagination__link--disabled"}
                   activeClassName={"pagination__link--active"}
-                />
+                /> */}
+                <div>
+                  <button onClick={handlePrevious}>Previous</button>
+                  <button onClick={handleNext} disabled={isNextButtonDisabled}>
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>

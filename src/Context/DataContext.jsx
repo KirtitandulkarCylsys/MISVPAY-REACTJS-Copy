@@ -11,7 +11,7 @@ export const useDataContext = () => {
 
 export const DataContextProvider = ({ children }) => {
   const [roleWiseData, setRoleWiseData] = useState(null);
-  const [zonetablecurrentPage, setZonetablecurrentPage] = useState("");
+  const [zonetablecurrentPage, setZonetablecurrentPage] = useState("1");
   const [zontablepageSize, setZonetablepageSize] = useState("");
   const [start_Date, setStart_Date] = useState();
   const [end_Date, setEnd_Date] = useState();
@@ -43,7 +43,7 @@ export const DataContextProvider = ({ children }) => {
     default:
       commonReportValue = "";
   }
-  const fetchTransactionSummary = async (pageSize,  currentPage) => {
+  const fetchTransactionSummary = async () => {
     try {
       const formattedStartDate = start_Date?.split("-").reverse().join("/");
       const formattedEndDate = end_Date?.split("-").reverse().join("/");
@@ -61,8 +61,8 @@ export const DataContextProvider = ({ children }) => {
         ufc: UFCData,
         rm: emp_id,
         common_report: commonReportValue,
-        page_number: currentPage,
-        page_size: pageSize,
+        page_number:zonetablecurrentPage ,
+        page_size: zontablepageSize,
       });
 
       if (start_Date > end_Date) {
@@ -86,6 +86,15 @@ export const DataContextProvider = ({ children }) => {
     }
   };
 
+  const formatNumberToIndianFormat = (number) => {
+    if (typeof number !== "number") {
+      return number;
+    }
+    const parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -96,7 +105,8 @@ export const DataContextProvider = ({ children }) => {
         zonetablecurrentPage,
         setZonetablecurrentPage,
         setStart_Date,
-        setEnd_Date,summary_report, fetchTransactionSummary,setRolwiseselectype, hide, setHide
+        setEnd_Date,summary_report, fetchTransactionSummary,setRolwiseselectype, hide, setHide,
+        start_Date,end_Date,emproles,emp_id,rolwiseselectype,channel,zoneData,REGIONData,UFCData,loading,formatNumberToIndianFormat
       }}
     >
       {children}
