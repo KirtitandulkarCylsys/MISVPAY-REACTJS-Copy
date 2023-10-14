@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
 import RegionTable from "./RegionTable";
 import "./ZoneTable.css";
 import Api from "../Retail/RetailApi/Api";
+import ReactPaginate from "react-paginate";
+import { useDataContext } from "../../Context/DataContext";
 const ZoneTable = ({
-  transaction_summary_report,
   formatNumberToIndianFormat,
   startDate,
   endDate,
@@ -13,7 +14,11 @@ const ZoneTable = ({
 }) => {
   const [clickedIndex, setClickedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [totalPages, setTotalPages]= useState('');
+  const[ currentPage, setCurrentPage] =useState(1);
+  const {
+    zonetablecurrentPage, zontablepageSize, setZonetablepageSize,setZonetablecurrentPage, fetchTransactionSummary,summary_report
+  } = useDataContext();
   const handleButtonClick = (index) => {
     setIsLoading(true);
     setTimeout(() => {
@@ -26,18 +31,52 @@ const ZoneTable = ({
     }
   };
 
+  const itemsperPage= zontablepageSize===''? summary_report.length : parseInt(zontablepageSize)
+useEffect(()=>{
+  setZonetablecurrentPage('');
+  setTotalPages(Math.ceil(summary_report.length / itemsperPage));
+},[zontablepageSize])
+useEffect(()=>{
+  currentPage=== 0 ? setZonetablecurrentPage(""):
+  setZonetablecurrentPage(currentPage.toString());
+  console.log(currentPage,'currentPage')
+},[currentPage])
+
+
+
   const calculateTotal = (columnName) => {
     let total = 0;
     if (
-      transaction_summary_report &&
-      Array.isArray(transaction_summary_report)
+      summary_report &&
+      Array.isArray(summary_report)
     ) {
-      transaction_summary_report.forEach((item) => {
+      summary_report.forEach((item) => {
         total += parseFloat(item[columnName]);
       });
     }
     return total;
   };
+
+
+  const handlePageClick = (selectedPage) => {
+    setCurrentPage(selectedPage.selected)
+    setZonetablecurrentPage(currentPage.toString());
+    console.log(selectedPage.selected,'selectedPage.selected');
+  };
+
+  const handlePageSizeChange = (e) => {   
+    console.log(e.target.value,'pagesize');
+    setZonetablecurrentPage(currentPage.toString());
+    setZonetablepageSize(e.target.value);
+    fetchTransactionSummary(e.target.value, currentPage.toString());
+    
+  };
+
+  const startIndex = currentPage * itemsperPage;
+  const endIndex = startIndex + itemsperPage;
+  const subset = summary_report.slice(startIndex, endIndex);
+  console.log(startIndex,'startIndex', subset,'subset', summary_report,'summary_report');
+  console.log(endIndex,'endIndex');
   return (
     <>
       <div className="">
@@ -49,7 +88,8 @@ const ZoneTable = ({
                   <b>Select Entries</b>
                 </label>
                 <select
-                  className="form-select form-control w-50"               
+                  className="form-select form-control w-50"
+                  onChange={handlePageSizeChange}
                 >
                   <option value="5">5 </option>
                   <option value="10">10 </option>
@@ -131,7 +171,7 @@ const ZoneTable = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {transaction_summary_report.map((summary, index) => {
+                    {subset?.map((summary, index) => {
                       return (
                         <React.Fragment key={index}>
                           <tr>
@@ -264,9 +304,9 @@ const ZoneTable = ({
                             <tr key={`subtable-${index}`}>
                               <td colSpan="22" className="p-0">
                                 <RegionTable
-                                  transaction_summary_report={
-                                    transaction_summary_report
-                                  }
+                                  // transaction_summary_report={
+                                  //   transaction_summary_report
+                                  // }
                                   formatNumberToIndianFormat={
                                     formatNumberToIndianFormat
                                   }
@@ -393,6 +433,18 @@ const ZoneTable = ({
                     </tr>
                   </tbody>
                 </table>
+                <ReactPaginate
+                  previousLabel={"← Previous"}
+                  nextLabel={"Next →"}
+                  pageCount={totalPages}
+                  forcePage={zonetablecurrentPage}
+                  onPageChange={handlePageClick}
+                  containerClassName={"rmpagination"}
+                  previousLinkClassName={"pagination__link"}
+                  nextLinkClassName={"pagination__link"}
+                  disabledClassName={"pagination__link--disabled"}
+                  activeClassName={"pagination__link--active"}
+                />
               </div>
             </div>
           </div>

@@ -30,8 +30,8 @@ const RmTable = ({
       ufc: ufc,
       rm: "nill",
       common_report: "INT_UFCWISE",
-      page_number: '',
-      page_size: ''
+      page_number: "",
+      page_size: "",
     });
   }, [
     formattedStartDate,
@@ -39,7 +39,7 @@ const RmTable = ({
     select_type,
     ufc,
     emproles,
-    channel
+    channel,
   ]);
 
   const { rm } = RMApi(queryParams);
@@ -71,10 +71,19 @@ const RmTable = ({
             style={{ backgroundColor: "rgb(58 94 147 / 98%)", color: "white" }}
           >
             <tr className="">
-              <th scope="col" rowSpan="2"  className="border-end border-1 text-center" style={{ lineHeight: "4" }}>
+              <th
+                scope="col"
+                rowSpan="2"
+                className="border-end border-1 text-center"
+                style={{ lineHeight: "4" }}
+              >
                 RM Code
               </th>
-              <th scope="col" rowSpan="2"  className="border-end border-1 text-center" >
+              <th
+                scope="col"
+                rowSpan="2"
+                className="border-end border-1 text-center"
+              >
                 EMPLOYEE NAME
               </th>
               <th colspan="7" className="border-1 text-center ">

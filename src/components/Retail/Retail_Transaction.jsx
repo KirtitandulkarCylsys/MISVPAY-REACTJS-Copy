@@ -20,6 +20,7 @@ import ZoneTable from "../Table/ZoneTable";
 import UfcTable from "../Table/UfcTable";
 import RmTable from "../Table/RmTable";
 import RegionTable from "../Table/RegionTable";
+import { useDataContext } from "../../Context/DataContext";
 
 
 const Retail_Transaction = ({ headers }) => {
@@ -28,23 +29,35 @@ const Retail_Transaction = ({ headers }) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const {
-    hide,
+    // hide,
     startDate,
     endDate,
     setStartDate,
     setEndDate,
     transaction_summary_report,
     loading,
-    togglehide,
+    // togglehide,
     select_type,
     setSelectType,
     formatNumberToIndianFormat,emproles
   } = Api({ headers });
+
+ const  {setStart_Date,setEnd_Date, setRolwiseselectype,hide,fetchTransactionSummary, setHide}= useDataContext();
   const  commonReport= emproles  ;
 
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const togglehide = async () => {
+    try {
+      await fetchTransactionSummary('');
+      setHide(true);
+    } catch (error) {
+      setHide(false);
+      toast.error("Please fill all the fields");
+    }
   };
 
   const handleStartDateChange = (e) => {
@@ -53,6 +66,7 @@ const Retail_Transaction = ({ headers }) => {
       toast.error("Start date should be less than end date");
     } else {
       setStartDate(newStartDate);
+      setStart_Date(newStartDate);
     }
   };
 
@@ -62,8 +76,13 @@ const Retail_Transaction = ({ headers }) => {
       toast.error("End date should be greater than start date");
     } else {
       setEndDate(newEndDate);
+      setEnd_Date(newEndDate);
     }
   };
+  const handleSelectType =(value)=>{
+    setRolwiseselectype(value);
+    setSelectType(value);
+  }
 
   return (
     <>
@@ -163,7 +182,7 @@ const Retail_Transaction = ({ headers }) => {
                             id="ab"
                             class="form-select form-control"
                             value={select_type}
-                            onChange={(e) => setSelectType(e.target.value)}
+                            onChange={(e) => handleSelectType(e.target.value)}
                           >
                             <option value=""> choose type</option>
                             <option value="NETSALES">NET SALES </option>
@@ -238,15 +257,15 @@ const Retail_Transaction = ({ headers }) => {
                               {commonReport === 'ZH' || commonReport === 'ADMIN'? (
                                 <>
                                   <ZoneTable
-                                    transaction_summary_report={
-                                      transaction_summary_report
-                                    }
+                                    // transaction_summary_report={
+                                    //   transaction_summary_report
+                                    // }
                                     formatNumberToIndianFormat={
                                       formatNumberToIndianFormat
                                     }
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    select_type={select_type}                                   
+                                    // startDate={startDate}
+                                    // endDate={endDate}
+                                    // select_type={select_type}                                   
                                   />
                                  
                                 </>

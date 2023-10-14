@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_SUMMARY_TRANSACTION } from "../../../Constant/apiConstant";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,7 +9,9 @@ const Api = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [select_type, setSelectType] = useState("");
-  const [transaction_summary_report, setTransactionSummaryReport] = useState([]);
+  const [transaction_summary_report, setTransactionSummaryReport] = useState(
+    []
+  );
   // const [pageNumber, setPageNumber]=useState([]);
   const [loading, setLoading] = useState(false);
   const { roleWiseData } = useDataContext();
@@ -37,11 +39,15 @@ const Api = () => {
     default:
       commonReportValue = "";
   }
+  const { zontablepageSize, zonetablecurrentPage } = useDataContext();
 
+  // useEffect(() => {
+  //   fetchTransactionSummary();
+  // }, [zontablepageSize]);
   const fetchTransactionSummary = async () => {
     try {
-      const formattedStartDate = startDate.split("-").reverse().join("/");
-      const formattedEndDate = endDate.split("-").reverse().join("/");
+      const formattedStartDate = startDate?.split("-").reverse().join("/");
+      const formattedEndDate = endDate?.split("-").reverse().join("/");
       const queryParams = new URLSearchParams({
         employee_id: emp_id,
         emprole: emproles,
@@ -56,8 +62,8 @@ const Api = () => {
         ufc: UFCData,
         rm: emp_id,
         common_report: commonReportValue,
-        page_number: "1",
-        page_size: "",
+        page_number: zonetablecurrentPage,
+        page_size: zontablepageSize,
       });
 
       if (startDate > endDate) {
@@ -114,7 +120,7 @@ const Api = () => {
     setHide,
     setLoading,
     formatNumberToIndianFormat,
-    emproles
+    emproles,
   };
 };
 
