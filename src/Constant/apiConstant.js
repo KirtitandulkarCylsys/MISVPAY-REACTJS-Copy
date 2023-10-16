@@ -88,4 +88,8 @@ export const API_ROLEWISE = {
   DATA: `${API}/rolewiselogin`,
 }
 
+export const API_NFO = {
+  DATA: `${API}/nfo`,
+}
+
 export default axiosInstance;

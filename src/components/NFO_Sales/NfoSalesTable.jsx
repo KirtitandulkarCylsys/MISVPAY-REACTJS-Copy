@@ -1,143 +1,89 @@
 import React, { useState } from "react";
 import Navbar from "../Shared/Navbar";
 import SideBar from "../Shared/SideBar/SideBar";
-import DataTable from "react-data-table-component";
-
+import { NfoApi } from './NfoApi';
+import "./NfoSales.css"
 const NfoSalesTable = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  const data= [
-    {
-      "name": "Declan O. Kim",
-      "phone": "752-0415",
-      "email": "elit.Curabitur@ut.net",
-      "dob": "24/10/1986"
-    },
-    {
-      "name": "Philip Owen",
-      "phone": "246-6791",
-      "email": "nec.ligula.consectetuer@risusDonecnibh.co.uk",
-      "dob": "25/12/1986"
-    },
-   
-    {
-      "name": "Coby Sanford",
-      "phone": "793-9294",
-      "email": "risus@in.com",
-      "dob": "03/01/1991"
-    },
-    {
-      "name": "Hayfa W. Melton",
-      "phone": "562-7157",
-      "email": "molestie@quamPellentesque.org",
-      "dob": "21/03/1988"
-    },
-      
-    {
-      "name": "Wynne Wolf",
-      "phone": "664-1755",
-      "email": "enim.Etiam.gravida@aliquetodioEtiam.com",
-      "dob": "14/06/1985"
-    },
-    {
-      "name": "Piper Mccormick",
-      "phone": "1-816-664-9420",
-      "email": "Duis@turpis.co.uk",
-      "dob": "22/05/1987"
-    },
-    {
-      "name": "Tanek Browning",
-      "phone": "885-2917",
-      "email": "eget@magnis.org",
-      "dob": "29/10/1983"
-    },
-    {
-      "name": "Linus T. Harding",
-      "phone": "151-2485",
-      "email": "faucibus@dignissimlacus.com",
-      "dob": "03/06/1971"
-    },
-    {
-      "name": "Harrison Alston",
-      "phone": "814-6328",
-      "email": "Integer.vulputate.risus@cursusluctusipsum.com",
-      "dob": "20/02/1971"
-    },
-    {
-      "name": "Rhea B. Lambert",
-      "phone": "1-185-364-7519",
-      "email": "a@sedduiFusce.org",
-      "dob": "16/09/1993"
-    },
-    {
-      "name": "Dennis M. Munoz",
-      "phone": "198-7742",
-      "email": "dapibus@Lorem.org",
-      "dob": "10/08/1995"
-    },
-    {
-      "name": "Caldwell Shelton",
-      "phone": "410-3089",
-      "email": "eget.ipsum@ultriciesadipiscingenim.com",
-      "dob": "18/09/1975"
-    }
-  ]
-  const columns = [
-    {
-      name: 'Name',
-      selector: 'name',
-      sortable: true,
-    },
-    {
-      name: 'Phone',
-      selector: 'phone',
-      sortable: true,
-    },
-    {
-      name: 'Email',
-      selector: 'email',
-      sortable: true,
-    },
-    {
-      name: 'DOB',
-      selector: 'dob',
-    },
-  ];
+
+  const { nfo_details, loading } = NfoApi();
   return (
     <div className="home-main">
       <Navbar onToggle={toggleSidebar} />
       <div className="d-flex">
         <SideBar isOpen={sidebarOpen} />
-        <div
-          className={`${sidebarOpen ? "dashboard-closed" : "dashboard-full"}`}
-        >
+        <div className={`${sidebarOpen ? "dashboard-closed" : "dashboard-full"}`}>
           <div className="container-fluid">
             <div className="card bg-white mt-2">
               <div className="row">
                 <div className="col-md-12 mt-3">
-									<h4><b>NFO SALES DETAILS</b> </h4>
-								</div>
+                  <h4><b>NFO SALES DETAILS</b></h4>
+                </div>
               </div>
-							<div className="row">
-								<div className="col-md-12">
-									<div className="col-md-6 ">
-										<input type="file" className="form-control" id="" />
-									</div>
-									<div className="col-md-6 ">
-										<label htmlFor="Upload">Upload</label>
-										<input type="file" className="form-control"/>
-									</div>
-								</div>
-							</div>
               <div className="row">
-                <div className="col-md-12">
-                  <DataTable
-                  columns={columns}
-                  data={data}
-                  pagination
-                  />
+                <div className="col-md-12 d-flex">
+                  <div className="col-md-4">
+                    <input type="file" className="form-control" id="" />
+                  </div>
+                  <div className="col-md-4">
+                    <button className="btn BgcolorOrange">Upload</button>
+                  </div>
+                </div>
+              </div>
+              <div className="row  p-3 mt-4 mr-4 justify-content-center">
+                <div className="col-md-12  schrollbarNfo">
+                  <table className='table '>
+                    <thead className="bgcolorBlue text-white">
+                      <tr>
+                        <th>TRNTYPE</th>
+                        <th>INHOUSE NUMBER</th>
+                        <th>TYPE</th>
+                        <th>PLAN</th>
+                        <th>PLAN DESCRIPTION</th>
+                        <th>FROM SCHEME</th>
+                        <th>FROM PLAN</th>
+                        <th>FROM PLANDESC</th>
+                        <th>AMC CODE</th>
+                        <th>SCHDESC</th>
+                        <th>FOLIO NUMBER</th>
+                        <th>INVESTOR NAME</th>
+                        <th>AMOUNT</th>
+                        <th>AMTINCR</th>
+                        <th>ARN NO</th>
+                        <th>ARN NAME</th>
+                        <th>UFC CODE</th>
+                        <th>UFC NAME</th>
+                        <th>REGION</th>
+                        <th>ZONE</th>
+                        <th>CHANNEL NAME</th>
+                        <th>MOD CHANNEL</th>
+                        <th>SCHEME CODE</th>
+                        <th>BRANCH CODE</th>
+                        <th>PIN</th>
+                        <th>T30B30FLAG</th>
+                        <th>PLATFORM</th>
+                        <th>TRXN DATE</th>
+                        <th>SCHEME DESCRIPTION</th>
+                        <th>MAPRM CODE</th>
+                        <th>RIA CODE</th>
+                        <th>ARN_RIA</th>
+                        <th>PLATFORM2</th>
+                        <th>MOBILE NUMBER</th>
+                        <th>EMAIL ID</th>
+                        <th>TYPE 2</th>
+                        <th>REGION CODE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
                 </div>
               </div>
             </div>
